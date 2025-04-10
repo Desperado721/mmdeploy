@@ -51,6 +51,7 @@ def install_mmdeploy(work_dir, ort_dir):
     cmd += ' -DMMDEPLOY_TARGET_DEVICES=cpu '
     cmd += ' -DMMDEPLOY_TARGET_BACKENDS=ort '
     cmd += ' -DONNXRUNTIME_DIR={} '.format(ort_dir)
+    cmd +='  -DCMAKE_POLICY_VERSION_MINIMUM=3.5'
     os.system(cmd)
 
     os.system('cd build && make -j {} && make install'.format(g_jobs))
