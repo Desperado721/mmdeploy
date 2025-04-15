@@ -17,15 +17,15 @@ def install_ort(dep_dir):
     os.chdir(dep_dir)
 
     # install python onnxruntime
-    os.system('python3 -m pip install onnxruntime==1.8.1')
+    os.system('python3 -m pip install onnxruntime-gpu==1.19.0')
     # git clone
-    if not os.path.exists('onnxruntime-linux-x64-1.8.1'):
+    if not os.path.exists('onnxruntime-linux-x64-gpu-1.19.0'):
         os.system(
-            'wget -q --show-progress https://github.com/microsoft/onnxruntime/releases/download/v1.8.1/onnxruntime-linux-x64-1.8.1.tgz'  # noqa: E501
+            'wget -q --show-progress https://github.com/microsoft/onnxruntime/releases/download/v1.19.0/onnxruntime-linux-x64-gpu-1.19.0.tgz'  # noqa: E501
         )
-        os.system('tar xvf  onnxruntime-linux-x64-1.8.1.tgz')
+        os.system('tar xvf  onnxruntime-linux-x64-gpu-1.19.0.tgz')
 
-    ort_dir = os.path.join(dep_dir, 'onnxruntime-linux-x64-1.8.1')
+    ort_dir = os.path.join(dep_dir, 'onnxruntime-linux-x64-gpu-1.19.0')
     print('onnxruntime dir \t:{}'.format(ort_dir))
     print('\n')
     return ort_dir
@@ -51,6 +51,7 @@ def install_mmdeploy(work_dir, ort_dir):
     cmd += ' -DMMDEPLOY_TARGET_DEVICES=cpu '
     cmd += ' -DMMDEPLOY_TARGET_BACKENDS=ort '
     cmd += ' -DONNXRUNTIME_DIR={} '.format(ort_dir)
+    cmd +='  -DCMAKE_POLICY_VERSION_MINIMUM=3.5'
     os.system(cmd)
 
     os.system('cd build && make -j {} && make install'.format(g_jobs))
